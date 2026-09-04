@@ -1,0 +1,4 @@
+container run \
+    -it --rm \
+    -v /Users/jose/Documents/work:/home/build/host/work \
+    dev_builder_pico
