@@ -1,5 +1,22 @@
 #include "pico/stdlib.h"
 #include "pico/cyw43_arch.h"
+#include "FreeRTOS.h"
+#include "task.h"
+
+
+void cyw43_BlinkTask() {
+
+    while (true) {
+
+        // Turn the onboard LED ON
+        cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+        vTaskDelay(500);
+
+        // Turn the onboard LED OFF
+        cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
+        vTaskDelay(500);
+    }
+}
 
 int main() {
 
@@ -10,13 +27,7 @@ int main() {
         return -1;
     }
 
-    while (true) {
-        // Turn the onboard LED ON
-        cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
-        sleep_ms(500);
+    xTaskCreate(cyw43_BlinkTask, "Blink Task", 256, NULL, 1, NULL);
 
-        // Turn the onboard LED OFF
-        cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
-        sleep_ms(500);
-    }
+    vTaskStartScheduler();
 }

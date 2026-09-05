@@ -4,6 +4,7 @@ set(PICO_BOARD pico_w)
 
 include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
 include($ENV{PICO_SDK_PATH}/pico_sdk_init.cmake)
+include($ENV{FREERTOS_KERNEL_PATH}/portable/ThirdParty/GCC/RP2040/FreeRTOS_Kernel_import.cmake)
 
 project(blinky C CXX ASM)
 
@@ -16,9 +17,13 @@ add_executable(blinky
     main.c
 )
 
+target_include_directories(blinky PRIVATE ${CMAKE_CURRENT_LIST_DIR})
+
 target_link_libraries(blinky
     pico_stdlib
     pico_cyw43_arch_none
+    FreeRTOS-Kernel
+    FreeRTOS-Kernel-Heap4
 )
 
 # Enable usb and uart
