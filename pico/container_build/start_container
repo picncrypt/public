@@ -1,0 +1,4 @@
+docker run \
+    -it --rm \
+    -v /home/jose/work:/home/build/host/work \
+    dev_builder_pico
